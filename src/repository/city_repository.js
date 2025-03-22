@@ -1,4 +1,5 @@
 const { City } = require('../models/index');
+const { Op } = require('sequelize');
 
 class CityRepository {
     async createCity({ name }) {
@@ -6,6 +7,17 @@ class CityRepository {
             const city = await City.create({ name });
             return city;
         } catch (error) {
+            console.error("Something went wrong in the city repository layer");
+            throw { error };
+        }
+    }
+
+    async createManyCities(cities) {
+        try {
+            const response = await City.bulkCreate(cities);
+            return response;
+        }
+        catch (error) {
             console.error("Something went wrong in the city repository layer");
             throw { error };
         }
@@ -55,6 +67,27 @@ class CityRepository {
         try {
             const city = await City.findByPk(cityid);
             return city;
+        }
+        catch (error) {
+            console.error("Something went wrong in the city repository layer");
+            throw { error };
+        }
+    }
+
+    async getAllCities(filter) {
+        try {
+            if (filter.name) {
+                const cities = await City.findAll({
+                    where: {
+                        name: {
+                            [Op.startsWith]: filter.name
+                        }
+                    }
+                });
+                return cities;
+            }
+            const cities = await City.findAll();
+            return cities;
         }
         catch (error) {
             console.error("Something went wrong in the city repository layer");

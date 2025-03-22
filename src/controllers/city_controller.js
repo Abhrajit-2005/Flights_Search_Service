@@ -19,6 +19,27 @@ const create = async (req, res) => {
         });
     }
 }
+
+const createMany = async (req, res) => {
+    try {
+        const cities = await cityService.createManyCities(req.body);
+        return res.status(201).json({
+            data: cities,
+            success: true,
+            message: "Cities created successfully",
+            err: {}
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: "Cities creation failed",
+            err: err
+        });
+    }
+}
+
 const destroy = async (req, res) => {
     try {
         const response = await cityService.deleteCity(req.params.cityid);
@@ -77,9 +98,55 @@ const getCity = async (req, res) => {
     }
 }
 
+const getAllCities = async (req, res) => {
+    try {
+        console.log(req.query);
+
+        const cities = await cityService.getAllCities(req.query);
+        return res.status(200).json({
+            data: cities,
+            success: true,
+            message: "Cities fetched successfully",
+            err: {}
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: "Cities fetch failed",
+            err: err
+        });
+    }
+}
+
+const getAirports = async (req, res) => {
+    try {
+        const city = await cityService.getCity(req.params.cityid);
+        const airports = await city.getAirports();
+        return res.status(200).json({
+            data: airports,
+            success: true,
+            message: "Airports fetched successfully",
+            err: {}
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: "Airports fetch failed",
+            err: err
+        });
+    }
+}
+
 module.exports = {
     create,
+    createMany,
     destroy,
     update,
-    getCity
+    getCity,
+    getAllCities,
+    getAirports
 };
