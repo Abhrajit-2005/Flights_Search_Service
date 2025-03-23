@@ -3,7 +3,16 @@ const flightService = new FlightService();
 
 async function createFlight(req, res) {
     try {
-        const flight = await flightService.createFlight(req.body);
+        const flightData = {
+            flight_no: req.body.flight_no,
+            departureAirportID: req.body.departureAirportID,
+            arrivalAirportID: req.body.arrivalAirportID,
+            airplaneID: req.body.airplaneID,
+            departueTime: req.body.departueTime,
+            arrivalTime: req.body.arrivalTime,
+            price: req.body.price
+        }
+        const flight = await flightService.createFlight(flightData);
         return res.status(201).json({
             data: flight,
             success: true,
@@ -59,8 +68,59 @@ async function getAllFlights(req, res) {
     }
 }
 
+async function updateFlight(req, res) {
+    try {
+        const flightData = {
+            flight_no: req.body.flight_no,
+            departureAirportID: req.body.departureAirportID,
+            arrivalAirportID: req.body.arrivalAirportID,
+            airplaneID: req.body.airplaneID,
+            departueTime: req.body.departueTime,
+            arrivalTime: req.body.arrivalTime,
+            price: req.body.price
+        }
+        const flight = await flightService.updateFlight(req.params.flightid, flightData);
+        return res.status(200).json({
+            data: flight,
+            success: true,
+            message: "Flight updated successfully",
+            err: {}
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: "Flight update failed",
+            err: err
+        });
+    }
+}
+
+async function deleteFlight(req, res) {
+    try {
+        const flight = await flightService.deleteFlight(req.params.flightid);
+        return res.status(200).json({
+            data: flight,
+            success: true,
+            message: "Flight deleted successfully",
+            err: {}
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: "Flight deletion failed",
+            err: err
+        });
+    }
+}
+
 module.exports = {
     createFlight,
     getFlight,
-    getAllFlights
+    getAllFlights,
+    updateFlight,
+    deleteFlight
 };
