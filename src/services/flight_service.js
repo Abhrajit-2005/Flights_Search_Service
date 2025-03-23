@@ -12,7 +12,7 @@ class FlightService {
                 throw new Error("Departure time cannot be greater than arrival time");
             }
 
-            const airplane = await this.airplaneRepository.getAirplane(data.airplaneID);
+            const airplane = await this.airplaneRepository.get(data.airplaneID);
             //console.log(airplane);
 
             const flight = await this.flightRepository.createFlight({ ...data, totalSeats: airplane.capacity });
