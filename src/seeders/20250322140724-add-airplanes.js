@@ -41,9 +41,9 @@ module.exports = {
       capacity: 300,
       createdAt: new Date(),
       updatedAt: new Date()
-    }], {});
-
-
+    }], {
+      ignoreDuplicates: true
+    });
   },
 
   async down(queryInterface, Sequelize) {
