@@ -17,7 +17,7 @@ router.get('/city/:cityid/airports', CityController.getAirports);
 
 
 router.post('/flights', FlightMiddlewares.validateCreateFlight, FlightController.createFlight);
-router.get('/flight/:flightid', FlightController.getFlight);
+router.get('/flights/:flightid', FlightController.getFlight);
 router.get('/flights', FlightController.getAllFlights);
 router.delete('/flight/:flightid', FlightController.deleteFlight);
 router.patch('/flight/:flightid', FlightController.updateFlight);
