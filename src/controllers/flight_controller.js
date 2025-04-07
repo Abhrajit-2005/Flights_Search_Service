@@ -70,16 +70,7 @@ async function getAllFlights(req, res) {
 
 async function updateFlight(req, res) {
     try {
-        const flightData = {
-            flight_no: req.body.flight_no,
-            departureAirportID: req.body.departureAirportID,
-            arrivalAirportID: req.body.arrivalAirportID,
-            airplaneID: req.body.airplaneID,
-            departueTime: req.body.departueTime,
-            arrivalTime: req.body.arrivalTime,
-            price: req.body.price
-        }
-        const flight = await flightService.updateFlight(req.params.flightid, flightData);
+        const flight = await flightService.updateFlight(req.params.flightid, req.body);
         return res.status(200).json({
             data: flight,
             success: true,
